@@ -1,0 +1,33 @@
+{
+    "name": "alaaeta/translation",
+    "description": "Library for translate keys",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alaa-eta",
+            "email": "alaaabueta@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^7.6",
+        "laravel/legacy-factories": "^1.0.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alaaeta\\Translation\\" : "src/",
+            "Alaaeta\\Translation\\Database\\Factories\\" : "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alaaeta\\Translation\\Tests\\" : "tests/"
+        }
+    },
+    "extra": {
+        "laravel" : {
+            "providers" : [
+                "Alaaeta\\Translation\\TranslationServiceProvider"
+            ]
+        }
+    }
+}
