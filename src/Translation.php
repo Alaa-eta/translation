@@ -2,6 +2,7 @@
 
 namespace Alaaeta\Translation;
 
+use Alaaeta\Translation\Exception\InvalidInputException;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -38,8 +39,6 @@ class Translation
             ->where(DB::raw("$hasBinaryConstraint `key`"), $text)
             ->where('language_code' , app()->getLocale())->first();
 
-//        $defaultTranslation = $this->makeTranslationSafePlaceholders($translation->value,$replacements);
-
         if (empty($translation)) {
             $translation = $this->translationModel->create([
                 'key' => $text,
@@ -55,7 +54,7 @@ class Translation
     {
         if (!is_string($text)) {
             $message = 'Invalid Argument. You must supply a string to be translated.';
-            throw new InvalidArgumentException($message);
+            throw new InvalidInputException($message);
         }
 
         return true;

@@ -3,18 +3,25 @@
 namespace Alaaeta\Translation\Tests\Feature;
 
 
+use Alaaeta\Translation\Exception\InvalidInputException;
 use \Alaaeta\Translation\Facades\Translation;
 use Alaaeta\Translation\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 
-class InitTest extends TestCase
+class TranslationTest extends TestCase
 {
     use RefreshDatabase;
 
+
+    /// check cached
+    /// check
+
+
     public function testTranslationInvalidText()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidInputException::class);
         Translation::translate(['Invalid']);
     }
 
@@ -50,7 +57,7 @@ class InitTest extends TestCase
 
     public function testTranslationPlaceHoldersMultiple()
     {
-        $replace = ['name' => 'John' , 'age' => 29];
+        $replace = ['name' => 'John', 'age' => 29];
         $this->assertEquals('Hello John 29', Translation::translate('Hello :name :age', $replace));
     }
 
@@ -61,34 +68,27 @@ class InitTest extends TestCase
 
     }
 
-//    public function testTranslationPlaceHoldersHtmlFormat()
-//    {
-//        $this->assertEquals('api.Welcome', Translation::translate('api.Welcome'));
-//        $translation = \Alaaeta\Translation\Models\Translation::first();
-//        $translation->value='<h1>Welcome</h1>';
-//        $translation->save();
-//        $this->assertEquals('<h1>Welcome</h1>', Translation::translate('api.Welcome'));
-//        $translations = \Alaaeta\Translation\Models\Translation::get();
-//        $this->assertCount(1, $translations);
-//
-//    }
+    public function testTranslationPlaceHoldersHtmlFormat()
+    {
+        $this->assertEquals('api.Welcome', Translation::translate('api.Welcome'));
+        $translation = \Alaaeta\Translation\Models\Translation::first();
+        $translation->value = '<h1>Welcome</h1>';
+        $translation->save();
+        Cache::flush();
+        $this->assertEquals('<h1>Welcome</h1>', Translation::translate('api.Welcome'));
+        $translations = \Alaaeta\Translation\Models\Translation::get();
+        $this->assertCount(1, $translations);
 
-//    public function testTranslationPlaceHoldersHtmlFormatWithDynamicLanguage()
-//    {
-//        $replace = ['name' => 'Alaa'];
-//        $this->assertEquals('api.Welcome Alaa', Translation::translate('api.Welcome :name',$replace));
-//        $translation = \Alaaeta\Translation\Models\Translation::first();
-//        $translation->value='<h1>Welcome :name</h1>';
-//        $translation->save();
-//        $this->assertEquals('<h1>Welcome</h1>', Translation::translate('api.Welcome'));
-//
-//    }
+    }
 
-//    public function first_test()
-//    {
-//        $translation = Translation::newFactory()->create();
-//        $this->assertTrue(true);
-//    }
+    public function testCacheIsWorking()
+    {
+        $localeCode = $this->app->getLocale();
+        $text = 'api.Welcome' ;
+        $hash = md5($text);
+        $this->assertEquals($text, Translation::translate($text));
+        $this->assertTrue(Cache::has("{$localeCode}.{$hash}"));
 
+    }
 
 }
