@@ -6,6 +6,10 @@
 Translation is a developer friendly, database driven, automatic translator for Laravel 9. Wouldn't it be nice to just write text regularly
 on your application and have it automatically translated, added to the database, and cached at runtime? Take this for example:
 
+The recommended way to install through Composer:
+
+    composer require alaaeta/translation
+
 Controller:
 
     public function index()

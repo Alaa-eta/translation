@@ -23,7 +23,7 @@
             "Alaaeta\\Translation\\Tests\\" : "tests/"
         }
     },
-    "extra": { 
+    "extra": {
         "laravel" : {
             "providers" : [
                 "Alaaeta\\Translation\\TranslationServiceProvider"
