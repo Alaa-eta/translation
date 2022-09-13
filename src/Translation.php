@@ -21,6 +21,27 @@ class Translation
         $this->translationModel = app()->make(\Alaaeta\Translation\Models\Translation::class);
     }
 
+    public function saveEntity($translationModel)
+    {
+        return $this->translationModel->saveEntity($translationModel);
+    }
+
+    public function getTypes()
+    {
+        return $this->translationModel->getTypes();
+    }
+
+    public function getTranslations()
+    {
+        return $this->translationModel->getTranslations();
+    }
+
+    public function findTranslation($translationKey)
+    {
+        return $this->translationModel->findTranslation($translationKey);
+    }
+
+
     public function translate($text = '', $replacements = [], $toLocale = '')
     {
         $this->validateText($text);
@@ -67,7 +88,6 @@ class Translation
         $cachedTranslation = $this->cache->get($id);
         return $cachedTranslation;
     }
-
 
     protected function getTranslationCacheId($text)
     {
