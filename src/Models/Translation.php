@@ -23,7 +23,7 @@ class Translation extends Model
     {
         return DB::select( DB::raw("SELECT  SUBSTRING_INDEX(`key`,'.',1) AS type  FROM translations group by type") );
     }
-
+ 
     public function getTranslations()
     {
         $language = request()->lang_name ?? 'en';
