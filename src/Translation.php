@@ -14,7 +14,7 @@ class Translation
     protected $cache;
 
     private $cacheTime = 30;
-
+ 
     public function __construct()
     {
         $this->cache = app()->make('cache');
