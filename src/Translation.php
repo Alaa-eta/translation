@@ -21,9 +21,9 @@ class Translation
         $this->translationModel = app()->make(\Alaaeta\Translation\Models\Translation::class);
     }
 
-    public function saveEntity($translationModel)
+    public function updateOrCreateTranslation($matchArray , $changeArray)
     {
-        return $this->translationModel->saveEntity($translationModel);
+        return $this->translationModel->updateOrCreateTranslation($matchArray , $changeArray);
     }
 
     public function getTypes()

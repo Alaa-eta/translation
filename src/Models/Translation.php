@@ -23,7 +23,7 @@ class Translation extends Model
     {
         return DB::select( DB::raw("SELECT  SUBSTRING_INDEX(`key`,'.',1) AS type  FROM translations group by type") );
     }
- 
+
     public function getTranslations()
     {
         $language = request()->lang_name ?? 'en';
@@ -35,13 +35,13 @@ class Translation extends Model
 
     public function findTranslation($translationKey)
     {
-        $translations =   $this->where('key',$translationKey)->get();
+        $translations =   $this->where(DB::raw("BINARY `key`"), $translationKey)->get();
         if (count($translations) == 0) throw new \Exception('No Data Founded');
         return $translations;
     }
 
-    public function saveEntity($translationModel)
+    public function updateOrCreateTranslation($matchArray , $changeArray)
     {
-        $translationModel->save();
+        $this->updateOrCreate($matchArray , $changeArray);
     }
 }
