@@ -14,7 +14,7 @@ class Translation
     protected $cache;
 
     private $cacheTime = 30;
- 
+
     public function __construct()
     {
         $this->cache = app()->make('cache');
@@ -45,6 +45,7 @@ class Translation
     public function translate($text = '', $replacements = [], $toLocale = '')
     {
         $this->validateText($text);
+        $text = str_replace('/','-',$text);
         $translation = $this->firstOrCreateTranslation($text , $replacements);
         $defaultTranslation = $this->makeTranslationSafePlaceholders($translation->value,$replacements);
         return $defaultTranslation;
@@ -59,12 +60,11 @@ class Translation
         $translation = $this->translationModel
             ->where(DB::raw("$hasBinaryConstraint `key`"), $text)
             ->where('language_code' , app()->getLocale())->first();
-
         if (empty($translation)) {
             $translation = $this->translationModel->create([
                 'key' => $text,
                 'language_code' => app()->getLocale(),
-                'value' => $text
+                'value' => ucfirst(substr($text, (strpos($text, '.') ?: -1) + 1))
             ]);
         }
         $this->setCacheTranslation($text , $translation);
