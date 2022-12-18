@@ -26,6 +26,11 @@ class Translation
         return $this->translationModel->updateOrCreateTranslation($matchArray , $changeArray);
     }
 
+    public function destroy($key)
+    {
+        return $this->translationModel->destroyTranslation($key);
+    }
+
     public function getTypes()
     {
         return $this->translationModel->getTypes();

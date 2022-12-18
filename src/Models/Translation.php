@@ -28,8 +28,14 @@ class Translation extends Model
     {
         $language = request()->lang_name ?? 'en';
         $lang_file_name = request()->lang_file_name ?? null;
+        $key = request()->key ?? null;
         $query =  $this->where('language_code',$language);
         if ($lang_file_name) $query->where(DB::raw('SUBSTRING_INDEX(`key`, "." ,1)'), '=' , $lang_file_name);
+        if ($key) {
+            $query->where(function ($query2) use ($key){
+                $query2->where('key','LIKE',"%{$key}%")->orWhere('value','LIKE',"%{$key}%");
+            });
+        }
         return $query->paginate((request()->pageNumber ?? 10))->appends(request()->query());
     }
 
@@ -44,4 +50,10 @@ class Translation extends Model
     {
         $this->updateOrCreate($matchArray , $changeArray);
     }
+
+    public function destroyTranslation($key)
+    {
+        $this->where('key',$key)->delete();
+    }
+
 }
