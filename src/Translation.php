@@ -22,7 +22,7 @@ class Translation
     }
 
     public function updateOrCreateTranslation($matchArray , $changeArray)
-    {
+    { 
         return $this->translationModel->updateOrCreateTranslation($matchArray , $changeArray);
     }
 
