@@ -1,8 +1,7 @@
 <?php
 
 namespace Alaaeta\Translation;
-
-
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
@@ -17,6 +16,9 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerMigrations();
         $this->registerFacades();
 
+        Blade::directive('t', function ($args) {
+            return "<?php echo App::make('translation')->translate{$args}; ?>";
+        });
     }
 
     public function register()
