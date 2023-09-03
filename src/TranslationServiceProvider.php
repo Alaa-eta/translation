@@ -16,8 +16,9 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerMigrations();
         $this->registerFacades();
 
+
         Blade::directive('t', function ($args) {
-            return "<?php echo App::make('translation')->translate{$args}; ?>";
+           return $this->app->make('translation')->translate($args);
         });
     }
 
