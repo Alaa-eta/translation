@@ -18,7 +18,8 @@ class TranslationServiceProvider extends ServiceProvider
 
 
         Blade::directive('t', function ($args) {
-           return $this->app->make('translation')->translate($args);
+
+           return $this->app->make('translation')->translate(preg_replace('~^[\'"]?(.*?)[\'"]?$~', '$1', $args));
         });
     }
 
